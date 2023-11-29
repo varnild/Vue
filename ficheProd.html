@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Vue JS</title>
+    <style>
+        .colorSelector {
+            display: inline-flex;
+        }
+        .selectRed {
+            background-color: red;
+        }
+        .selectBlue {
+            background-color: blue;
+        }
+        .selectRed, .selectBlue {
+            margin: 5px;
+            display: flex;
+            height: 35px;
+            width: 35px;
+            
+        }
+    </style>
+  </head>
+  <body>
+    <div id="app" v-cloak>
+        <div class="title"> {{ title }}</div>
+        <img :src="imgSrc" >
+        <div class="colorSelector">
+            <div class="selectRed" @click="setColor('red')"></div>
+            <div class="selectBlue" @click="setColor('blue')"></div>
+        </div>
+        <div>price: {{ price }}</div>
+        <div>stock: {{ stock }}</div>
+        <ul>
+            <li v-for="(d in desc">
+                {{ d }}
+            </li>
+        </ul>
+       <div>To pay: {{ priceToPay}} </div>
+        <input type="number" v-model="qtt" @change="calculatePrice"/>
+       
+    </div>
+
+    <script type="module">
+      import { createApp, ref, computed } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+
+      createApp({
+        setup() {
+            const product  = ref({
+                name: "cat",
+                brand: "Brand",
+                description: ["Mignon", "Affectueux", "Gourmant"],
+                color: [
+                    {
+                        color: "red",
+                        img: "red.png",
+                        stock: 3,
+                        price: 10
+                    },{
+                        color: "blue",
+                        img: "blue.png",
+                        stock: 2,
+                        price: 12
+                    }
+                ]
+            });
+            const title = computed (() => `${product.value.brand} ${product.value.name}`);
+            const desc = ref(product.value.description);
+            const color = ref("red");
+            const setColor = (col) => {
+                color.value = col;
+                updateModel(col);
+            }
+
+            const updateModel = (color) => {
+                product.value.color.map((prod) => {
+                    if(prod.color == color) {
+                        price.value = prod.price;
+                        stock.value = prod.stock;
+                    }
+                })
+            }
+
+            const price = ref(10);
+            const stock = ref(3); 
+            const imgSrc = computed (() => {
+                return `./images/${color.value}.png`;
+            })
+            const priceToPay = computed(() => {
+                return `${price.value} euros`;
+            })
+            const calculatePrice = computed(() => {
+
+            })
+            
+          return { product, calculatePrice, imgSrc, setColor, price, priceToPay, stock, color, desc, title };
+        },
+      }).mount('#app');
+    </script>
+  </body>
+</html>
