@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Vue JS</title>
     <style>
+        [v-cloak] {
+        display: none;
+      }
         .colorSelector {
             display: inline-flex;
         }
@@ -39,7 +42,7 @@
             </li>
         </ul>
        <div>To pay: {{ priceToPay}} </div>
-        <input type="number" v-model="qtt" @change="calculatePrice"/>
+        <input type="number"  @change="calculatePrice($event)"/>
        
     </div>
 
@@ -91,9 +94,10 @@
             const priceToPay = computed(() => {
                 return `${price.value} euros`;
             })
-            const calculatePrice = computed(() => {
-
-            })
+            const calculatePrice = (event) => {
+                console.log(event.value);
+                priceToPay.value = price.value * event.value;
+            }
             
           return { product, calculatePrice, imgSrc, setColor, price, priceToPay, stock, color, desc, title };
         },
