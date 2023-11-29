@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Vue JS</title>
+  </head>
+  <body>
+    <div id="app">
+        <h1> {{ title }}</h1>
+
+        <ul v-if="show" >
+            <li v-for="(recette, index) in recettes" :key="index">
+                {{ recette.nom }} ({{ index }})
+            </li>
+        </ul>
+        <button @click="hide" >afficher /cacher </button>
+    </div>
+
+    <script type="module">
+      import { createApp, ref } from 'https://unpkg.com/vue@3/dist/vue.esm-browser.js';
+
+      createApp({
+        setup() {
+            const show = ref(true);
+            let title = ref("Recette");
+            const recettes = ref([ 
+                {nom: "cousous", id:1}, 
+                {nom: "Fondue", id:2}, 
+                {nom: "salade caesar", id:3}
+            ]);
+            const hide = () => {
+                show.value = !show.value;
+            }
+        
+          return { title, show, hide, recettes };
+        },
+      }).mount('#app');
+    </script>
+  </body>
+</html>
